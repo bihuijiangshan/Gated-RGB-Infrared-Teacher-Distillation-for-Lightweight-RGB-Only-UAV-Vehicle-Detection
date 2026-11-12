@@ -1,0 +1,12 @@
+experiment_group: student_feature_distill
+model: student_rgbt
+backbone_width: yolov8n
+dual_stream_until: p3
+fusion: reliability_gated
+distillation:
+  feature_weight: 1.0
+  classification_weight: 0.0
+  localization_weight: 0.0
+seed: 3407
+epochs: 100
+batch: auto

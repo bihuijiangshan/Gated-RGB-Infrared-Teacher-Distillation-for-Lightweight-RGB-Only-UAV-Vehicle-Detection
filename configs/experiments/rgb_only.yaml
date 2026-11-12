@@ -1,0 +1,7 @@
+experiment_group: baseline_rgb_only
+model: yolov8s
+inputs: [rgb]
+image_size: [512, 640]
+seed: 3407
+epochs: 100
+batch: auto

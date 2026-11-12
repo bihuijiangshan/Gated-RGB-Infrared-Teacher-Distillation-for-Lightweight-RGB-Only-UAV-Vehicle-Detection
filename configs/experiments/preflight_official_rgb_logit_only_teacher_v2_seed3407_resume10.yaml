@@ -1,0 +1,25 @@
+experiment_id: official-rgb-logit-only-teacher-v2-seed3407
+experiment_group: official-rgb-stronger-teacher-ablation
+
+data_root: data/processed/yolo_smoke_5pct
+output_root: runs/paired/official_rgb_logit_only_teacher_v2_seed3407
+
+epochs: 10
+batch: 2
+imgsz: 640
+seed: 3407
+device: "0"
+workers: 0
+lr: 0.0001
+num_classes: 5
+resume: true
+
+teacher_model: yolov8n.yaml
+teacher_checkpoint: runs/paired/early_fusion_teacher_v2_10ep/best.pt
+
+student_model: yolov8n.yaml
+student_pretrained: yolov8n.pt
+
+feature_weight: 0.0
+logit_weight: 1.0
+temperature: 2.0

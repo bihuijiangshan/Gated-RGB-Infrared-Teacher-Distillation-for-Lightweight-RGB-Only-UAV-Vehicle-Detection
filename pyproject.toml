@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rgbt-uav-thesis"
+version = "0.1.0"
+description = "Reproducible RGB-IR UAV small-object detection research toolkit"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "numpy>=1.26,<3",
+  "Pillow>=10,<12",
+  "PyYAML>=6,<7",
+]
+
+[project.optional-dependencies]
+train = [
+  "pycocotools==2.0.11",
+  "torch==2.7.1",
+  "torchvision==0.22.1",
+  "ultralytics==8.3.0",
+  "opencv-python-headless>=4.10,<5",
+]
+dev = [
+  "pytest>=8,<9",
+  "pytest-cov>=5,<7",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+rgbt-build-manifest = "rgbt_uav.cli.build_manifest:main"
+rgbt-audit-manifest = "rgbt_uav.cli.audit_manifest:main"
+rgbt-audit-manifest-set = "rgbt_uav.cli.audit_manifest_set:main"
+rgbt-record-experiment = "rgbt_uav.cli.record_experiment:main"
+rgbt-smoke-model = "rgbt_uav.cli.smoke_model:main"
+rgbt-prepare-yolo-subset = "rgbt_uav.cli.prepare_yolo_subset:main"
+rgbt-train-smoke = "rgbt_uav.cli.train_smoke_baseline:main"
+rgbt-train-preflight = "rgbt_uav.cli.train_preflight:main"
+rgbt-record-training-completion = "rgbt_uav.cli.record_training_completion:main"
+rgbt-estimate-training-cost = "rgbt_uav.cli.estimate_training_cost:main"
+rgbt-evaluate-coco-small = "rgbt_uav.cli.evaluate_coco_small:main"
+rgbt-train-early-fusion-preflight = "rgbt_uav.cli.train_early_fusion_preflight:main"
+rgbt-report-early-fusion = "rgbt_uav.cli.report_early_fusion:main"
+rgbt-train-distillation-preflight = "rgbt_uav.cli.train_distillation_preflight:main"
+rgbt-train-official-rgb-distillation-preflight = "rgbt_uav.cli.train_official_rgb_distillation_preflight:main"
+rgbt-evaluate-official-rgb-student = "rgbt_uav.cli.evaluate_official_rgb_student:main"
+rgbt-evaluate-official-rgb-history = "rgbt_uav.cli.evaluate_official_rgb_history:main"
+rgbt-audit-yolo-export-repeat = "rgbt_uav.cli.audit_yolo_export_repeat:main"
+rgbt-train-official-gated-teacher = "rgbt_uav.cli.train_official_gated_teacher:main"
+rgbt-audit-formal-experiments = "rgbt_uav.cli.audit_formal_experiments:main"
+rgbt-train-formal-unimodal = "rgbt_uav.cli.train_formal_unimodal:main"
+rgbt-plan-formal-calibration = "rgbt_uav.cli.plan_formal_calibration:main"
+rgbt-run-formal-calibration = "rgbt_uav.cli.run_formal_calibration:main"
+rgbt-run-formal-batch-size-search = "rgbt_uav.cli.run_formal_batch_size_search:main"
+rgbt-plan-formal-execution = "rgbt_uav.cli.plan_formal_execution:main"
+rgbt-evaluate-formal-teacher-history = "rgbt_uav.cli.evaluate_formal_teacher_history:main"
+rgbt-run-formal-experiment = "rgbt_uav.cli.run_formal_experiment:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q -p no:cacheprovider"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

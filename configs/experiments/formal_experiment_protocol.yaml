@@ -1,0 +1,272 @@
+format_version: 1
+status: frozen
+protocol_id: rgbt-uav-formal-experiment-v1
+frozen_date: "2026-09-08"
+
+preflight_evidence_is_final: false
+formal_results_require_full_data: true
+formal_results_require_three_seeds: true
+
+dataset:
+  name: DroneVehicle
+  root: data/processed/yolo_full_irref_with_test
+  reference_annotations: ir
+  classes:
+    - car
+    - truck
+    - bus
+    - van
+    - freight_car
+  counts:
+    train: 17990
+    val: 1469
+    test: 8980
+  image_size:
+    - 640
+    - 512
+  crop:
+    top: 100
+    right: 100
+    bottom: 100
+    left: 100
+  modality_paths:
+    rgb: data/processed/yolo_full_irref_with_test/rgb
+    ir: data/processed/yolo_full_irref_with_test/ir
+  yaml_paths:
+    rgb: data/processed/yolo_full_irref_with_test/rgb.yaml
+    ir: data/processed/yolo_full_irref_with_test/ir.yaml
+  split_policy:
+    train: parameter_optimization_only
+    val: checkpoint_selection_and_ablation_only
+    test: final_frozen_model_evaluation_only
+  repeated_export_audit:
+    status: passed
+    payload_files_compared: 113760
+    payload_bytes_compared: 7206231079
+    payload_tree_sha256: b449ac13bdd74a031279ed9871ee11ff7316dc6cb2ea3b590effa92e0ac691ed
+
+training:
+  seeds:
+    - 3407
+    - 3408
+    - 3409
+  epochs: 100
+  image_size: 640
+  learning_rate: 0.0001
+  pretrained: yolov8n.pt
+  checkpoint_each_epoch: true
+  resume_supported: true
+  batch_policy: largest_fixed_batch_supported_by_target_hardware
+  workers_policy: explicit_in_each_run_config
+  deterministic_split: true
+  model_selection:
+    split: val
+    metric: mAP50-95
+    direction: maximize
+    tie_breakers:
+      - AP75
+      - AP_small
+      - earlier_epoch
+  prohibitions:
+    - no_test_split_during_training
+    - no_test_split_for_checkpoint_selection
+    - no_threshold_tuning_on_test
+    - no_overwriting_completed_run
+    - no_deleting_failed_evidence
+    - no_reporting_preflight_as_formal_result
+
+evaluation:
+  selection_split: val
+  selection_metric: mAP50-95
+  final_split: test
+  test_policy: evaluate_once_after_model_and_checkpoint_freeze
+  score_threshold: 0.001
+  iou_threshold: 0.7
+  pre_coco_max_det: 300
+  coco_max_det: 100
+  coordinate_space: native_640x512_cropped_image
+  evaluator: pycocotools
+  primary_metrics:
+    - mAP50-95
+    - mAP50
+    - AP75
+    - AP_small
+    - AR_small
+  secondary_metrics:
+    - AP_medium
+    - AP_large
+    - AR_1
+    - AR_10
+    - AR_100
+    - AR_medium
+    - AR_large
+    - per_class_AP50-95
+    - per_class_AP50
+    - per_class_AP75
+    - per_class_AP_small
+  efficiency_metrics:
+    - parameters
+    - gflops
+    - deployment_model_bytes
+    - batch1_forward_latency
+    - batch1_end_to_end_latency
+    - fps
+    - peak_memory
+  evidence_requirements:
+    - experiment_id
+    - git_commit
+    - config_sha256
+    - dataset_manifest_sha256
+    - checkpoint_sha256
+    - prediction_sha256
+    - evaluator_versions
+    - selected_epoch
+    - random_seed
+    - device
+  checkpoint_selection:
+    use_validation_only: true
+    retain_epoch_history: true
+    copy_selected_checkpoint: true
+    selected_name: best_map50_95.pt
+    evidence_name: best_map50_95.json
+
+experiments:
+  rgb_only:
+    role: unimodal_baseline
+    input_modalities:
+      - rgb
+    model: yolov8n.yaml
+    pretrained: yolov8n.pt
+    required_seeds:
+      - 3407
+      - 3408
+      - 3409
+
+  ir_only:
+    role: unimodal_baseline
+    input_modalities:
+      - ir
+    model: yolov8n.yaml
+    pretrained: yolov8n.pt
+    required_seeds:
+      - 3407
+      - 3408
+      - 3409
+
+  early_fusion_teacher:
+    role: strongest_simple_fusion_baseline
+    input_modalities:
+      - rgb
+      - ir
+    model: yolov8n.yaml
+    input_channels: 4
+    fusion: input_concatenation
+    pretrained: yolov8n.pt
+    required_seeds:
+      - 3407
+      - 3408
+      - 3409
+
+  gated_teacher:
+    role: proposed_multimodal_teacher
+    input_modalities:
+      - rgb
+      - ir
+    model: yolov8n.yaml
+    fusion: reliability_gated
+    fusion_levels:
+      - p3
+      - p4
+      - p5
+    pretrained: yolov8n.pt
+    required_seeds:
+      - 3407
+      - 3408
+      - 3409
+    comparison_target: early_fusion_teacher
+
+  lightweight_detection_only:
+    role: lightweight_student_baseline
+    input_modalities:
+      - rgb
+    student_model: configs/models/yolov8_rgb_student_tiny.yaml
+    student_pretrained: yolov8n.pt
+    student_pretrained_kind: width_reduced
+    distillation: none
+    required_seeds:
+      - 3407
+      - 3408
+      - 3409
+
+  lightweight_early_fusion_distillation:
+    role: teacher_ablation
+    input_modalities:
+      - rgb
+    student_model: configs/models/yolov8_rgb_student_tiny.yaml
+    student_pretrained: yolov8n.pt
+    student_pretrained_kind: width_reduced
+    teacher: early_fusion_teacher
+    feature_weight: 0.0
+    logit_weight: 1.0
+    temperature: 2.0
+    output_distillation_kind: detection_aware
+    classification_distillation_weight: 1.0
+    dfl_distillation_weight: 0.0
+    required_seeds:
+      - 3407
+      - 3408
+      - 3409
+
+  lightweight_gated_distillation:
+    role: proposed_deployment_model
+    input_modalities:
+      - rgb
+    student_model: configs/models/yolov8_rgb_student_tiny.yaml
+    student_pretrained: yolov8n.pt
+    student_pretrained_kind: width_reduced
+    teacher: gated_teacher
+    feature_weight: 0.0
+    logit_weight: 1.0
+    temperature: 2.0
+    output_distillation_kind: detection_aware
+    classification_distillation_weight: 1.0
+    dfl_distillation_weight: 0.0
+    required_seeds:
+      - 3407
+      - 3408
+      - 3409
+    comparison_targets:
+      - lightweight_detection_only
+      - lightweight_early_fusion_distillation
+
+formal_claim_rules:
+  teacher_advantage:
+    comparison: gated_teacher_minus_early_fusion_teacher
+    minimum_mean_map50_95_gain: 0.005
+    require_positive_seed_count: 2
+  student_accuracy:
+    primary_comparison: lightweight_gated_distillation_minus_lightweight_detection_only
+    report_mean_and_sample_std: true
+    report_paired_seed_differences: true
+    do_not_claim_uniform_improvement_unless_all_seeds_positive: true
+  student_efficiency:
+    require_parameter_reduction_fraction: 0.30
+    require_gflops_reduction_fraction: 0.35
+    latency_protocol: adjacent_paired_alternating_order
+  reporting:
+    label_preflight_results_as_preflight: true
+    derive_tables_from_machine_readable_evidence: true
+    report_negative_and_null_results: true
+    prohibit_single_seed_primary_claims: true
+
+execution_gate:
+  full_training_authorized: false
+  authorization_required_before_full_training: true
+  required_before_authorization:
+    - protocol_tests_pass
+    - full_dataset_audit_passes
+    - all_formal_run_configs_validate
+    - output_roots_are_unique
+    - storage_budget_is_checked
+    - gpu_memory_preflight_passes
+    - estimated_gpu_hours_are_recorded

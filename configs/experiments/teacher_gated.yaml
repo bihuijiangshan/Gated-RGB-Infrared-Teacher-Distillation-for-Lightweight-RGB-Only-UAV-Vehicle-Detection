@@ -1,0 +1,9 @@
+experiment_group: teacher_reliability_gated
+model: teacher_rgbt
+backbone_width: yolov8s
+fusion: reliability_gated
+fusion_levels: [p3, p4, p5]
+quality_inputs: [feature_mean, feature_contrast, rgb_luminance]
+seed: 3407
+epochs: 100
+batch: auto

@@ -1,0 +1,17 @@
+﻿experiment_id: rgb-only-preflight-20260821
+experiment_group: baseline_rgb_only_preflight
+model: yolov8s.pt
+data: data/processed/yolo_smoke_5pct/rgb.yaml
+prediction_source: data/processed/yolo_smoke_5pct/rgb/images/val
+output_root: runs/preflight/rgb_only_20260821
+epochs: 5
+pause_after_epoch: 2
+imgsz: 640
+rect: true
+batch: 2
+seed: 3407
+workers: 0
+device: 0
+amp: true
+cache: false
+

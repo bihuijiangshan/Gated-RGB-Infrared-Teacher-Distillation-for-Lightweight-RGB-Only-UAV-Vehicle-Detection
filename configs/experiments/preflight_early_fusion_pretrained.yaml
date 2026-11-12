@@ -1,0 +1,15 @@
+﻿experiment_id: early-fusion-pretrained-preflight-seed-3407
+experiment_group: baseline_early_fusion_pretrained_preflight
+data_root: data/processed/yolo_smoke_5pct
+output_root: runs/paired/early_fusion_pretrained_preflight
+model: yolov8n.yaml
+pretrained: yolov8n.pt
+epochs: 5
+batch: 2
+imgsz: 640
+seed: 3407
+device: "0"
+workers: 0
+lr: 0.0001
+num_classes: 5
+resume: false

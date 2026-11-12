@@ -1,0 +1,15 @@
+experiment_id: formal-early-fusion-teacher-seed3409
+experiment_group: formal-early-fusion-teacher
+data_root: data/processed/yolo_full_irref_with_test
+output_root: runs/formal/early_fusion_teacher_seed3409
+model: yolov8n.yaml
+pretrained: yolov8n.pt
+epochs: 100
+batch: 30
+imgsz: 640
+seed: 3409
+device: "0"
+workers: 0
+lr: 0.0001
+num_classes: 5
+resume: false

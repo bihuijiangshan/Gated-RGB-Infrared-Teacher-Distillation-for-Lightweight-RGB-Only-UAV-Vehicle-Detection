@@ -1,0 +1,32 @@
+format_version: 1
+protocol_id: rgbt-uav-formal-experiment-v1
+status: planned
+split: train
+device: "0"
+warmup_batches: 5
+measured_batches: 20
+repeats: 3
+output: runs/archives/formal_training_calibration_fallback_batches_20260910/result.json
+workloads:
+  - experiment: gated_teacher
+    seed: 3407
+    config: configs/experiments/formal/gated_teacher_seed3407.yaml
+    batch: 18
+  - experiment: lightweight_detection_only
+    seed: 3407
+    config: configs/experiments/formal/lightweight_detection_only_seed3407.yaml
+    batch: 42
+    calibration_teacher:
+      kind: official_early_fusion
+      checkpoint: runs/paired/early_fusion_teacher_v2_10ep/best.pt
+      sha256: bdad61f7c8e65991ef82be4ff76226fa4dd2a9d527a8e4b652ceabe6f42afd1c
+      evidence: runs/paired/early_fusion_teacher_v2_10ep/completion.json
+  - experiment: lightweight_early_fusion_distillation
+    seed: 3407
+    config: configs/experiments/formal/lightweight_early_fusion_distillation_seed3407.yaml
+    batch: 30
+    calibration_teacher:
+      kind: official_early_fusion
+      checkpoint: runs/paired/early_fusion_teacher_v2_10ep/best.pt
+      sha256: bdad61f7c8e65991ef82be4ff76226fa4dd2a9d527a8e4b652ceabe6f42afd1c
+      evidence: runs/paired/early_fusion_teacher_v2_10ep/completion.json

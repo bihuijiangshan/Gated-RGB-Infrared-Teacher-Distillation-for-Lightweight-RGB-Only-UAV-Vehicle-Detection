@@ -1,0 +1,30 @@
+experiment_id: official-rgb-lightweight-classification-distillation-seed3407
+experiment_group: official-rgb-lightweight-classification-distillation-preflight
+
+data_root: data/processed/yolo_smoke_5pct
+output_root: runs/paired/official_rgb_lightweight_classification_distillation_seed3407
+
+epochs: 5
+batch: 2
+imgsz: 640
+seed: 3407
+device: "0"
+workers: 0
+lr: 0.0001
+num_classes: 5
+resume: false
+
+teacher_model: yolov8n.yaml
+teacher_checkpoint: runs/paired/early_fusion_teacher_v2_10ep/best.pt
+
+student_model: configs/models/yolov8_rgb_student_tiny.yaml
+student_pretrained: yolov8n.pt
+student_pretrained_kind: width_reduced
+
+feature_weight: 0.0
+logit_weight: 1.0
+temperature: 2.0
+
+output_distillation_kind: detection_aware
+classification_distillation_weight: 1.0
+dfl_distillation_weight: 0.0

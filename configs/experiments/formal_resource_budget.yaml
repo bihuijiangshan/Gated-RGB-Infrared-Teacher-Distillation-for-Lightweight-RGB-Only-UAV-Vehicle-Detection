@@ -1,0 +1,342 @@
+format_version: 1
+protocol_id: rgbt-uav-formal-experiment-v1
+recorded_date: "2026-09-10"
+status: ready_pending_explicit_authorization
+
+scope:
+  formal_runs: 21
+  epochs_per_run: 100
+  train_images_preflight: 900
+  train_images_formal: 17990
+  dataset_scale_factor: 19.9888888888889
+
+storage:
+  volume: D
+  observed_free_bytes: 146342248448
+  observed_free_gib: 136.29183959960938
+  checkpoint_families:
+    standard:
+      runs: 9
+      checkpoint_bytes: 32657923
+      source: runs/paired/official_rgb_classification_distillation_teacher_v2_seed3407/epochs/epoch-010.pt
+    gated_teacher:
+      runs: 3
+      checkpoint_bytes: 63249577
+      source: runs/paired/official_gated_teacher_v1/epochs/epoch-010.pt
+    lightweight_student:
+      runs: 9
+      checkpoint_bytes: 10357507
+      source: runs/paired/official_rgb_lightweight_detection_only_seed3407/epochs/epoch-020.pt
+  retained_epoch_history_gib: 53.72684458270669
+  checkpoint_artifacts_gib: 55.33864992018789
+  safety_multiplier: 1.25
+  reserved_gib: 69.17331240023486
+  projected_free_after_reserve_gib: 67.11852719937451
+  passes: true
+
+gpu_memory:
+  device: NVIDIA GeForce RTX 5060 Laptop GPU
+  total_memory_bytes: 8546484224
+  total_memory_gib: 7.95953369140625
+  largest_selected_batch: 44
+  largest_observed_peak_bytes: 6350241792
+  largest_observed_peak_mib: 6056.0625
+  measured_peak_workload: gated_teacher
+  measured_peak_batch: 18
+  measured_peak_memory_fraction: 0.7430238710518445
+  source: runs/archives/formal_training_calibration_fallback_batches_20260910/result.json
+  status: passed_at_selected_batches
+  measured_headroom_fraction: 0.2569761289481555
+  limitation: peak memory is based on bounded train-only calibration rather than a complete epoch
+
+runtime_calibration:
+  status: completed
+  git_commit: 0a764e70ddf7200bf2d86281d5d13bedb91b17ac
+  evidence: runs/archives/formal_training_calibration_20260908/plan.json
+  evidence_sha256: 6ddf401753b463dc6febe46bb40635d1466cbed67272e6471af63b9525c14e9c
+  split: train
+  test_evaluated: false
+  batch: 2
+  warmup_batches: 5
+  measured_batches_per_repeat: 20
+  repeats: 3
+  total_workloads: 7
+  total_measured_batches: 420
+  all_workloads_completed: true
+
+batch_size_search:
+  status: completed
+  git_commit: c95c5c1818199d368d38fd40c914db24b762041e
+  evidence: runs/archives/formal_batch_size_search_20260909/result.json
+  evidence_sha256: 07169e3d1afa6e8b60f6ae79cb4ad4e27f9b49935c91911728a40c64639b0f4c
+  split: train
+  test_evaluated: false
+  max_memory_fraction: 0.8
+  candidates: even integers from 2 through 64
+  selection_for_confirmation: maximum observed images per second among passing candidates
+  limitation: each search candidate used only three measured batches
+  workloads:
+    rgb_only:
+      confirmation_batch: 38
+      images_per_second: 78.50397319559382
+      memory_fraction: 0.4909262637164613
+      largest_memory_safe_batch: 60
+      unsafe_upper_bound: 62
+    ir_only:
+      confirmation_batch: 18
+      images_per_second: 62.56934769472943
+      memory_fraction: 0.2650110062380664
+      largest_memory_safe_batch: 60
+      unsafe_upper_bound: 62
+    early_fusion_teacher:
+      confirmation_batch: 30
+      images_per_second: 42.41254227428588
+      memory_fraction: 0.7215194719114478
+      largest_memory_safe_batch: 32
+      unsafe_upper_bound: 34
+    gated_teacher:
+      confirmation_batch: 20
+      images_per_second: 31.981283698412135
+      memory_fraction: 0.7906132101695436
+      largest_memory_safe_batch: 20
+      unsafe_upper_bound: 22
+    lightweight_detection_only:
+      confirmation_batch: 46
+      images_per_second: 47.38903582653647
+      memory_fraction: 0.6444880865201021
+      largest_memory_safe_batch: 56
+      unsafe_upper_bound: 58
+    lightweight_early_fusion_distillation:
+      confirmation_batch: 52
+      images_per_second: 52.31252373611149
+      memory_fraction: 0.7270983142459493
+      largest_memory_safe_batch: 56
+      unsafe_upper_bound: 58
+    lightweight_gated_distillation:
+      confirmation_batch: 44
+      images_per_second: 42.2312415793046
+      memory_fraction: 0.6567695792660015
+      largest_memory_safe_batch: 52
+      unsafe_upper_bound: 54
+  provisional_runtime_at_confirmation_batches:
+    raw_training_gpu_hours: 221.24385719772545
+    safety_multiplier: 1.5
+    estimated_gpu_hours: 331.8657857965882
+    serial_gpu_days: 13.82774107485784
+
+selected_batch_confirmation:
+  status: partial
+  git_commit: 046eb198ae5833bbe701092b15c7fd80a3a05c2e
+  plan: configs/experiments/formal_training_calibration_selected_batches.yaml
+  evidence: runs/archives/formal_training_calibration_selected_batches_20260909/result.json
+  evidence_sha256: d4a3d7728ae1cb34c82bc166853073dc921e51b1464f94eb5a7fafd1fd1b4616
+  split: train
+  test_evaluated: false
+  warmup_batches: 5
+  measured_batches_per_repeat: 20
+  repeats: 3
+  total_measured_batches: 420
+  total_memory_bytes: 8546484224
+  acceptance_criteria:
+    maximum_memory_fraction: 0.8
+    maximum_latency_relative_std: 0.15
+  workloads:
+    rgb_only:
+      batch: 38
+      mean_batch_ms: 421.29319166609395
+      images_per_second: 90.1984668912424
+      latency_relative_std: 0.0558713422159141
+      memory_fraction: 0.545230893765001
+      status: confirmed
+    ir_only:
+      batch: 18
+      mean_batch_ms: 251.75949500699062
+      images_per_second: 71.4968069009679
+      latency_relative_std: 0.0525072360656708
+      memory_fraction: 0.260322931124386
+      status: confirmed
+    early_fusion_teacher:
+      batch: 30
+      mean_batch_ms: 584.9526233350238
+      images_per_second: 51.2862047339138
+      latency_relative_std: 0.0244207729440786
+      memory_fraction: 0.720570893784171
+      status: confirmed
+    gated_teacher:
+      batch: 20
+      mean_batch_ms: 547.4136200073796
+      images_per_second: 36.5354446236292
+      latency_relative_std: 0.0299597180674789
+      memory_fraction: 0.829427632487022
+      status: fallback_required
+      fallback_batch: 18
+      reason: confirmed peak memory exceeded the 0.8 cap
+    lightweight_detection_only:
+      batch: 46
+      mean_batch_ms: 998.4155016679628
+      images_per_second: 46.0730025957649
+      latency_relative_std: 0.381429860465776
+      memory_fraction: 0.703523685577683
+      status: fallback_required
+      fallback_batch: 42
+      reason: confirmed latency relative standard deviation exceeded 0.15
+    lightweight_early_fusion_distillation:
+      batch: 52
+      mean_batch_ms: 11930.697320001005
+      images_per_second: 4.35850467120857
+      latency_relative_std: 0.350277608124584
+      memory_fraction: 0.8032138311006142
+      status: fallback_required
+      fallback_batch: 30
+      reason: throughput collapsed and both memory and latency criteria failed
+    lightweight_gated_distillation:
+      batch: 44
+      mean_batch_ms: 998.3720349924018
+      images_per_second: 44.07174726236684
+      latency_relative_std: 0.03266257227018602
+      memory_fraction: 0.6962268708448036
+      status: confirmed
+  confirmed_workloads: 4
+  fallback_workloads: 3
+  fallback_plan: configs/experiments/formal_training_calibration_fallback_batches.yaml
+
+fallback_batch_confirmation:
+  status: completed
+  git_commit: 253e7aedec8dfbf5452ec847ddc53a74c1a8fea9
+  plan: configs/experiments/formal_training_calibration_fallback_batches.yaml
+  evidence: runs/archives/formal_training_calibration_fallback_batches_20260910/result.json
+  evidence_sha256: 681ca9ec981724410bce28b78934b7cfceea1dfe9a0b4020f0e50808399a83c6
+  split: train
+  test_evaluated: false
+  warmup_batches: 5
+  measured_batches_per_repeat: 20
+  repeats: 3
+  total_measured_batches: 180
+  acceptance_criteria:
+    maximum_memory_fraction: 0.8
+    maximum_p95_to_median_latency_ratio: 1.5
+    interpretation: isolated maximum-latency outliers are retained in evidence but do not reject an otherwise stable batch; the final runtime budget uses P95 latency and an additional safety multiplier
+  workloads:
+    gated_teacher:
+      batch: 18
+      mean_batch_ms: 519.0153716646213
+      median_batch_ms: 515.6087999930605
+      p95_batch_ms: 548.0195550015196
+      images_per_second: 34.68105374657629
+      p95_to_median_latency_ratio: 1.062859196757106
+      latency_relative_std: 0.029575029627836678
+      memory_fraction: 0.7430238710518445
+      status: confirmed
+    lightweight_detection_only:
+      batch: 42
+      mean_batch_ms: 1037.3353433426626
+      median_batch_ms: 892.8812999802176
+      p95_batch_ms: 1156.5567649988168
+      max_batch_ms: 3708.578299963847
+      images_per_second: 40.488353423552596
+      p95_to_median_latency_ratio: 1.2953085309597605
+      latency_relative_std: 0.5223196066257172
+      memory_fraction: 0.6393997083215116
+      status: confirmed_with_isolated_long_tail
+    lightweight_early_fusion_distillation:
+      batch: 30
+      mean_batch_ms: 571.8987500004005
+      median_batch_ms: 562.5922000326682
+      p95_batch_ms: 622.5630900153192
+      images_per_second: 52.456837858063146
+      p95_to_median_latency_ratio: 1.1065974430131962
+      latency_relative_std: 0.06753348722724185
+      memory_fraction: 0.4468898091772807
+      status: confirmed
+
+final_batch_selection:
+  status: completed
+  policy: highest-throughput batch that passed bounded memory and robust latency confirmation
+  workloads:
+    rgb_only: 38
+    ir_only: 18
+    early_fusion_teacher: 30
+    gated_teacher: 18
+    lightweight_detection_only: 42
+    lightweight_early_fusion_distillation: 30
+    lightweight_gated_distillation: 44
+
+runtime_estimate:
+  method: P95 confirmed training-step latency multiplied by the ceiling of 17990 images divided by the selected batch, 100 epochs and 3 seeds per workload
+  assumptions:
+    - all 21 runs execute serially on one GPU
+    - the last partial batch has the same duration as a full batch
+    - laptop GPU power and thermal state remain variable
+    - a 1.5 safety multiplier covers validation, checkpointing, startup and runtime variation beyond the P95 training-step estimate
+  train_images: 17990
+  epochs_per_run: 100
+  runs_per_family: 3
+  latency_statistic: p95
+  safety_multiplier: 1.5
+  families:
+    rgb_only:
+      runs: 3
+      batch: 38
+      batches_per_epoch: 474
+      p95_batch_ms: 445.83973998378497
+      raw_training_gpu_hours: 17.610669729359508
+      estimated_gpu_hours: 26.41600459403926
+    ir_only:
+      runs: 3
+      batch: 18
+      batches_per_epoch: 1000
+      p95_batch_ms: 278.0260800063843
+      raw_training_gpu_hours: 23.168840000532025
+      estimated_gpu_hours: 34.753260000798036
+    early_fusion_teacher:
+      runs: 3
+      batch: 30
+      batches_per_epoch: 600
+      p95_batch_ms: 609.7876099636778
+      raw_training_gpu_hours: 30.48938049818389
+      estimated_gpu_hours: 45.73407074727584
+    gated_teacher:
+      runs: 3
+      batch: 18
+      batches_per_epoch: 1000
+      p95_batch_ms: 548.0195550015196
+      raw_training_gpu_hours: 45.66829625012664
+      estimated_gpu_hours: 68.50244437518995
+    lightweight_detection_only:
+      runs: 3
+      batch: 42
+      batches_per_epoch: 429
+      p95_batch_ms: 1156.5567649988168
+      raw_training_gpu_hours: 41.3469043487077
+      estimated_gpu_hours: 62.02035652306155
+    lightweight_early_fusion_distillation:
+      runs: 3
+      batch: 30
+      batches_per_epoch: 600
+      p95_batch_ms: 622.5630900153192
+      raw_training_gpu_hours: 31.12815450076596
+      estimated_gpu_hours: 46.69223175114894
+    lightweight_gated_distillation:
+      runs: 3
+      batch: 44
+      batches_per_epoch: 409
+      p95_batch_ms: 1036.9222500245087
+      raw_training_gpu_hours: 35.34176668833534
+      estimated_gpu_hours: 53.01265003250301
+  total_raw_training_gpu_hours: 224.75401201601107
+  total_estimated_gpu_hours: 337.1310180240166
+  serial_gpu_days: 14.047125751000692
+  confidence: medium
+  limitation: wall-clock time can still vary with validation, checkpoint I/O, power limits and thermal throttling
+
+decision:
+  full_training_authorized: false
+  storage_budget_checked: true
+  gpu_memory_preflight_passed: true
+  gpu_memory_preflight_passed_provisionally: true
+  runtime_calibration_passed: true
+  batch_size_search_passed: true
+  selected_batches_confirmed: true
+  estimated_gpu_hours_recorded: true
+  blocking_reason: explicit user authorization is still required before starting full formal training
+  required_next_step: audit the updated 21-run matrix, commit the frozen batch configuration and request explicit authorization for full formal training

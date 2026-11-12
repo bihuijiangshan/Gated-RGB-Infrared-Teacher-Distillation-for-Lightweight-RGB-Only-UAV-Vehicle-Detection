@@ -1,0 +1,7 @@
+experiment_group: baseline_ir_only
+model: yolov8s
+inputs: [ir]
+image_size: [512, 640]
+seed: 3407
+epochs: 100
+batch: auto

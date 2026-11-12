@@ -1,0 +1,14 @@
+experiment_group: baseline_ir_only_smoke
+model: yolov8s.pt
+data: data/processed/yolo_smoke_5pct/ir.yaml
+prediction_source: data/processed/yolo_smoke_5pct/ir/images/val
+output_root: runs/smoke/ir_only
+epochs: 1
+imgsz: 640
+rect: true
+batch: 2
+seed: 3407
+workers: 0
+device: 0
+amp: true
+cache: false

@@ -1,0 +1,46 @@
+format_version: 1
+protocol_id: rgbt-uav-formal-experiment-v1
+status: planned
+split: train
+device: "0"
+warmup_batches: 5
+measured_batches: 20
+repeats: 3
+output: runs/archives/formal_training_calibration_20260908/plan.json
+workloads:
+  - experiment: rgb_only
+    seed: 3407
+    config: configs/experiments/formal/rgb_only_seed3407.yaml
+  - experiment: ir_only
+    seed: 3407
+    config: configs/experiments/formal/ir_only_seed3407.yaml
+  - experiment: early_fusion_teacher
+    seed: 3407
+    config: configs/experiments/formal/early_fusion_teacher_seed3407.yaml
+  - experiment: gated_teacher
+    seed: 3407
+    config: configs/experiments/formal/gated_teacher_seed3407.yaml
+  - experiment: lightweight_detection_only
+    seed: 3407
+    config: configs/experiments/formal/lightweight_detection_only_seed3407.yaml
+    calibration_teacher:
+      kind: official_early_fusion
+      checkpoint: runs/paired/early_fusion_teacher_v2_10ep/best.pt
+      sha256: bdad61f7c8e65991ef82be4ff76226fa4dd2a9d527a8e4b652ceabe6f42afd1c
+      evidence: runs/paired/early_fusion_teacher_v2_10ep/completion.json
+  - experiment: lightweight_early_fusion_distillation
+    seed: 3407
+    config: configs/experiments/formal/lightweight_early_fusion_distillation_seed3407.yaml
+    calibration_teacher:
+      kind: official_early_fusion
+      checkpoint: runs/paired/early_fusion_teacher_v2_10ep/best.pt
+      sha256: bdad61f7c8e65991ef82be4ff76226fa4dd2a9d527a8e4b652ceabe6f42afd1c
+      evidence: runs/paired/early_fusion_teacher_v2_10ep/completion.json
+  - experiment: lightweight_gated_distillation
+    seed: 3407
+    config: configs/experiments/formal/lightweight_gated_distillation_seed3407.yaml
+    calibration_teacher:
+      kind: official_gated
+      checkpoint: runs/paired/official_gated_teacher_v1/best_map50_95.pt
+      sha256: d56e58604e6cc83c8618f1b5ee982e66967b3d7f664778970368feac259e3938
+      evidence: runs/paired/official_gated_teacher_v1/best_map50_95.json

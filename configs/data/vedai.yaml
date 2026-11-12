@@ -1,0 +1,5 @@
+name: VEDAI
+task: external_hbb_validation
+modalities: [rgb, nir]
+split: official_cross_validation
+note: NIR is not thermal infrared; report it as cross-spectral transfer only.

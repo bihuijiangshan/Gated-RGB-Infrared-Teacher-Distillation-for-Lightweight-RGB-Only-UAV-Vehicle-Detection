@@ -1,0 +1,28 @@
+name: DroneVehicle
+task: hbb_detection
+modalities: [rgb, thermal_ir]
+image_size: [512, 640]
+crop:
+  top: 100
+  right: 100
+  bottom: 100
+  left: 100
+splits: official
+classes:
+  0: car
+  1: truck
+  2: bus
+  3: van
+  4: freight_car
+manifest:
+  reference: ir
+  train: data/processed/manifests/train_ir.jsonl
+  val: data/processed/manifests/val_ir.jsonl
+  test: data/processed/manifests/test_ir.jsonl
+auxiliary_manifest:
+  reference: rgb
+  train: data/processed/manifests/train.jsonl
+  val: data/processed/manifests/val.jsonl
+  test: data/processed/manifests/test.jsonl
+geometry_augmentation: synchronized
+manual_audit_pairs: 100

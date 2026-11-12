@@ -1,0 +1,73 @@
+format_version: 1
+protocol_id: rgbt-uav-formal-experiment-v1
+
+runs:
+  - experiment: rgb_only
+    seed: 3407
+    config: configs/experiments/formal/rgb_only_seed3407.yaml
+  - experiment: rgb_only
+    seed: 3408
+    config: configs/experiments/formal/rgb_only_seed3408.yaml
+  - experiment: rgb_only
+    seed: 3409
+    config: configs/experiments/formal/rgb_only_seed3409.yaml
+
+  - experiment: ir_only
+    seed: 3407
+    config: configs/experiments/formal/ir_only_seed3407.yaml
+  - experiment: ir_only
+    seed: 3408
+    config: configs/experiments/formal/ir_only_seed3408.yaml
+  - experiment: ir_only
+    seed: 3409
+    config: configs/experiments/formal/ir_only_seed3409.yaml
+
+  - experiment: early_fusion_teacher
+    seed: 3407
+    config: configs/experiments/formal/early_fusion_teacher_seed3407.yaml
+  - experiment: early_fusion_teacher
+    seed: 3408
+    config: configs/experiments/formal/early_fusion_teacher_seed3408.yaml
+  - experiment: early_fusion_teacher
+    seed: 3409
+    config: configs/experiments/formal/early_fusion_teacher_seed3409.yaml
+
+  - experiment: gated_teacher
+    seed: 3407
+    config: configs/experiments/formal/gated_teacher_seed3407.yaml
+  - experiment: gated_teacher
+    seed: 3408
+    config: configs/experiments/formal/gated_teacher_seed3408.yaml
+  - experiment: gated_teacher
+    seed: 3409
+    config: configs/experiments/formal/gated_teacher_seed3409.yaml
+
+  - experiment: lightweight_detection_only
+    seed: 3407
+    config: configs/experiments/formal/lightweight_detection_only_seed3407.yaml
+  - experiment: lightweight_detection_only
+    seed: 3408
+    config: configs/experiments/formal/lightweight_detection_only_seed3408.yaml
+  - experiment: lightweight_detection_only
+    seed: 3409
+    config: configs/experiments/formal/lightweight_detection_only_seed3409.yaml
+
+  - experiment: lightweight_early_fusion_distillation
+    seed: 3407
+    config: configs/experiments/formal/lightweight_early_fusion_distillation_seed3407.yaml
+  - experiment: lightweight_early_fusion_distillation
+    seed: 3408
+    config: configs/experiments/formal/lightweight_early_fusion_distillation_seed3408.yaml
+  - experiment: lightweight_early_fusion_distillation
+    seed: 3409
+    config: configs/experiments/formal/lightweight_early_fusion_distillation_seed3409.yaml
+
+  - experiment: lightweight_gated_distillation
+    seed: 3407
+    config: configs/experiments/formal/lightweight_gated_distillation_seed3407.yaml
+  - experiment: lightweight_gated_distillation
+    seed: 3408
+    config: configs/experiments/formal/lightweight_gated_distillation_seed3408.yaml
+  - experiment: lightweight_gated_distillation
+    seed: 3409
+    config: configs/experiments/formal/lightweight_gated_distillation_seed3409.yaml

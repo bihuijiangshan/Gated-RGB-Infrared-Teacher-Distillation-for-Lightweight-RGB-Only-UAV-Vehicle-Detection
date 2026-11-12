@@ -1,0 +1,7 @@
+experiment_group: baseline_mid_add
+model: yolov8s_dual_stream
+fusion: add
+fusion_levels: [p3, p4, p5]
+seed: 3407
+epochs: 100
+batch: auto

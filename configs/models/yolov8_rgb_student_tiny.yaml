@@ -1,0 +1,39 @@
+# Lightweight RGB student derived from YOLOv8n.
+#
+# The three detection scales and official Detect head are retained so that
+# detection-aware classification and DFL distillation remain compatible with
+# the official YOLOv8n RGB-T teacher.
+
+nc: 80
+
+backbone:
+  # [from, repeats, module, args]
+  - [-1, 1, Conv, [8, 3, 2]]       # 0-P1/2
+  - [-1, 1, Conv, [16, 3, 2]]      # 1-P2/4
+  - [-1, 1, C2f, [16, true]]
+  - [-1, 1, Conv, [32, 3, 2]]      # 3-P3/8
+  - [-1, 2, C2f, [32, true]]
+  - [-1, 1, Conv, [64, 3, 2]]      # 5-P4/16
+  - [-1, 2, C2f, [64, true]]
+  - [-1, 1, Conv, [128, 3, 2]]     # 7-P5/32
+  - [-1, 1, C2f, [128, true]]
+  - [-1, 1, SPPF, [128, 5]]        # 9
+
+head:
+  - [-1, 1, nn.Upsample, [null, 2, "nearest"]]
+  - [[-1, 6], 1, Concat, [1]]
+  - [-1, 1, C2f, [64]]             # 12
+
+  - [-1, 1, nn.Upsample, [null, 2, "nearest"]]
+  - [[-1, 4], 1, Concat, [1]]
+  - [-1, 1, C2f, [32]]             # 15-P3/8
+
+  - [-1, 1, Conv, [32, 3, 2]]
+  - [[-1, 12], 1, Concat, [1]]
+  - [-1, 1, C2f, [64]]             # 18-P4/16
+
+  - [-1, 1, Conv, [64, 3, 2]]
+  - [[-1, 9], 1, Concat, [1]]
+  - [-1, 1, C2f, [128]]            # 21-P5/32
+
+  - [[15, 18, 21], 1, Detect, [nc]]

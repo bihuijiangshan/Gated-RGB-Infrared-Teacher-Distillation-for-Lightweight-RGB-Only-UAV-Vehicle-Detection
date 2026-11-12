@@ -1,0 +1,23 @@
+experiment_id: distillation-preflight-seed-3407
+experiment_group: baseline-distillation-preflight
+
+data_root: data/processed/yolo_smoke_5pct
+output_root: runs/paired/distillation_preflight_v2
+
+epochs: 20
+batch: 2
+imgsz: 640
+seed: 3407
+device: "0"
+workers: 0
+lr: 0.0001
+num_classes: 5
+resume: true
+
+teacher_base_channels: 32
+student_base_channels: 16
+reg_max: 16
+feature_weight: 1.0
+logit_weight: 1.0
+temperature: 2.0
+teacher_checkpoint: null

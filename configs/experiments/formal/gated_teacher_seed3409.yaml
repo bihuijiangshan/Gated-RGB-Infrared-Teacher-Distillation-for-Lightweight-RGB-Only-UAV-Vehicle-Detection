@@ -1,0 +1,16 @@
+experiment_id: formal-gated-teacher-seed3409
+experiment_group: formal-gated-teacher
+data_root: data/processed/yolo_full_irref_with_test
+output_root: runs/formal/gated_teacher_seed3409
+model: yolov8n.yaml
+pretrained: yolov8n.pt
+epochs: 100
+batch: 18
+imgsz: 640
+seed: 3409
+device: "0"
+workers: 0
+lr: 0.0001
+weight_decay: 0.0005
+num_classes: 5
+resume: false

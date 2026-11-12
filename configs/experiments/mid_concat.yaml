@@ -1,0 +1,7 @@
+experiment_group: baseline_mid_concat
+model: yolov8s_dual_stream
+fusion: concat_1x1
+fusion_levels: [p3, p4, p5]
+seed: 3407
+epochs: 100
+batch: auto

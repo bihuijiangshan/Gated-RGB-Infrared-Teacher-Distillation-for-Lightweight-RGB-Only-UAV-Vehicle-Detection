@@ -1,0 +1,8 @@
+experiment_group: baseline_early_fusion_4ch
+model: yolov8s
+fusion: early_4_channel
+inputs: [rgb, ir]
+image_size: [512, 640]
+seed: 3407
+epochs: 100
+batch: auto
